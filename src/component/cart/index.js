@@ -165,7 +165,7 @@ const Cart = (props) => {
   return (
     <Grid container className={classes.root}>
       <Grid container>
-        <Typography variant="h3" padding={20}>
+        <Typography variant="h6">
           Cart Item
         </Typography>
       </Grid>

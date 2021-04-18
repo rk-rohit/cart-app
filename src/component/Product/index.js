@@ -5,10 +5,12 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Hidden from "@material-ui/core/Hidden";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import Button from "@material-ui/core/Button";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import { addToCart } from "../../actions/product";
 import Cart from "../cart";
 import { useState } from "react";
+import Card from "../Product/Card";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -18,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    border: "1px solid",
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "auto",
     },
+    margin: "0 !important",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -51,9 +53,12 @@ const useStyles = makeStyles((theme) => ({
   marginTop: {
     marginTop: "75px",
   },
+  card: {
+    display: "inline-block",
+  },
 }));
 
-const Product = () => {
+const Product = ({ handleOpen }) => {
   const { cartItem, product } = useSelector(
     (store) => ({
       cartItem: store.cart.cartItem,
@@ -63,8 +68,8 @@ const Product = () => {
   );
 
   const [filteredProduct, setFilteredProduct] = useState(product);
-  const [sortByDur, setSortByDur] = useState(0);
-  const [sortByDat, setSortByDat] = useState(0);
+  const [sortByDur, setSortByDur] = useState(false);
+  const [sortByDat, setSortByDat] = useState(false);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -88,7 +93,7 @@ const Product = () => {
 
   const search = (e) => {
     const val = e.target.value;
-    const filterItem = val
+    const filterItem = product
       ? product.filter((item) => {
           const name = item.name.toLowerCase();
           const description = item.description.toLowerCase();
@@ -118,7 +123,7 @@ const Product = () => {
         : hmsToSeconds(a.duration) - hmsToSeconds(b.duration);
     });
     setSortByDur(!sortByDur);
-    setSortByDat(0);
+    setSortByDat(false);
     setFilteredProduct(filterItem);
   };
 
@@ -133,58 +138,50 @@ const Product = () => {
         : convertIntoDate(a.publishDate) - convertIntoDate(b.publishDate);
     });
     setSortByDat(!sortByDur);
-    setSortByDur(0);
+    setSortByDur(false);
+    console.log("filterItem", filterItem, product)
     setFilteredProduct(filterItem);
   };
 
-  const product_list = filteredProduct.length
-    ? filteredProduct.map((item, index) => (
-        <div className="card" key={index} onClick={() => addCart(item.id)}>
-          Id: {item.id}
-          <br />
-          name: {item.name}
-          <br />
-          author: {item.author}
-          <br />
-          description: {item.description}
-          <br />
-          publishDate: {item.publishDate} <br />
-          duration: {item.duration} <br />
-          <img
-            className="card--image"
-            alt={item.name}
-            src={item.image}
-            width="50%"
-            height="50%"
-          ></img>
-        </div>
-      ))
-    : "No Product";
-
   return (
-    <Container maxWidth="md" className={classes.marginTop}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={8}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onKeyUp={(e) => search(e)}
-            />
-            <button onClick={() => sortByDate()}>Sort By Date</button>
-            <button onClick={() => sortByDuration()}>Sort By Duration</button>
+    <Container className={classes.marginTop}>
+      <Grid container>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
           </div>
-          <div className="card-list">{product_list}</div>
+          <InputBase
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ "aria-label": "search" }}
+            onKeyUp={(e) => search(e)}
+          />
+          <Button color="primary" onClick={() => sortByDate()}>
+            Sort By Date
+          </Button>
+          <Button color="primary" onClick={() => sortByDuration()}>
+            Sort By Duration
+          </Button>
+        </div>
+        <Grid item xs={12} sm={8} md={8}>
+          {filteredProduct.length
+            ? filteredProduct.map((item) => (
+                <Grid className={classes.card} xs={12} sm={6} md={4}>
+                  <Card
+                    {...item}
+                    addCart={addCart}
+                    cartItem={cartItem}
+                    handleOpen={handleOpen}
+                  />
+                </Grid>
+              ))
+            : "No Product"}
         </Grid>
         <Hidden smDown>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} md={4}>
             <Cart />
           </Grid>
         </Hidden>
