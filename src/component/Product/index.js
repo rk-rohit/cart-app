@@ -50,9 +50,6 @@ const useStyles = makeStyles((theme) => ({
       width: "20ch",
     },
   },
-  marginTop: {
-    marginTop: "75px",
-  },
   card: {
     display: "inline-block",
     marginBottom: "20px"
@@ -149,7 +146,7 @@ const Product = ({ handleOpen }) => {
   };
 
   return (
-    <Container className={classes.marginTop}>
+    <Container>
       <Grid container>
         <div className={classes.search}>
           <div className={classes.searchIcon}>

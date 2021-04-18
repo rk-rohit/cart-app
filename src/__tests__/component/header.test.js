@@ -33,7 +33,7 @@ describe("Header", () => {
 	});
 	
 	it("renders Header component", async () => {
-    const items = await screen.findAllByText('Cart App')
+    const items = await screen.findAllByText('Product')
     expect(items).toHaveLength(1)
     const item2 = await screen.findAllByText('Login')
     expect(item2).toHaveLength(1)

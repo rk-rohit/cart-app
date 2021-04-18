@@ -37,6 +37,9 @@ const styles = {
   listItem: {
     width: "100%",
   },
+  pl25: {
+    paddingLeft: "25px",
+  },
 };
 
 const Cart = (props) => {
@@ -118,20 +121,13 @@ const Cart = (props) => {
                   <Typography gutterBottom variant="h6">
                     {item.name}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Price : {item.price} USD
-                  </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
                 <Button
                   size="small"
                   color="primary"
-                  onClick={()=>decreaseQtyCart(item.id)}
+                  onClick={() => decreaseQtyCart(item.id)}
                 >
                   -
                 </Button>
@@ -141,14 +137,14 @@ const Cart = (props) => {
                 <Button
                   size="small"
                   color="primary"
-                  onClick={()=>increaseQtyCart(item.id)}
+                  onClick={() => increaseQtyCart(item.id)}
                 >
                   +
                 </Button>
                 <Button
                   size="small"
                   color="primary"
-                  onClick={()=>deleteItemCart(item.id)}
+                  onClick={() => deleteItemCart(item.id)}
                 >
                   Remove
                 </Button>
@@ -158,7 +154,12 @@ const Cart = (props) => {
         );
       })
     ) : (
-      <Typography variant="body2" color="textSecondary" component="p">
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        component="p"
+        className={classes.pl25}
+      >
         No item in cart.
       </Typography>
     );
@@ -166,11 +167,9 @@ const Cart = (props) => {
   return (
     <Grid container className={classes.root}>
       <Grid container>
-        <Typography variant="h6">
+        <Typography variant="h6" className={classes.pl25}>
           Cart Item
         </Typography>
-      </Grid>
-      <Grid container>
         <List className={classes.listItem}>{cartItem_list}</List>
       </Grid>
     </Grid>
