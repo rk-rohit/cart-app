@@ -1,6 +1,6 @@
 const initState = {
-  username: "hruday@gmail.com",
-  password: "hruday123",
+  username: "rohit@gmail.com",
+  password: "rohit123",
   isLoggedIn: localStorage.getItem("isLoggedIn") === 'true' || false,
   errorMessage: "",
 };

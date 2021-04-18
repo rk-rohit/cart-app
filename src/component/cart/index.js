@@ -81,10 +81,11 @@ const Cart = (props) => {
       ? JSON.parse(localStorage.getItem("cartItem"))
       : [];
     dispatch(localStorageToCartItem(localCartItem));
-  }, []);
+  }, [dispatch]);
 
   const getCartItem = () => {
     return cartItem.length
+      // eslint-disable-next-line array-callback-return
       ? cartItem.map((item) => {
           let findValue = product.find(
             (product_item) => product_item.id === item.id

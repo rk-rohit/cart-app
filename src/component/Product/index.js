@@ -55,7 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     display: "inline-block",
+    marginBottom: "20px"
   },
+  gridFlex: {
+    display: "flex",
+    flexWrap: "wrap"
+  }
 }));
 
 const Product = ({ handleOpen }) => {
@@ -137,9 +142,9 @@ const Product = ({ handleOpen }) => {
         ? convertIntoDate(b.publishDate) - convertIntoDate(a.publishDate)
         : convertIntoDate(a.publishDate) - convertIntoDate(b.publishDate);
     });
-    setSortByDat(!sortByDur);
+    setSortByDat(!sortByDat);
     setSortByDur(false);
-    console.log("filterItem", filterItem, product)
+    console.log("filterItem", sortByDat, filterItem, product)
     setFilteredProduct(filterItem);
   };
 
@@ -166,7 +171,7 @@ const Product = ({ handleOpen }) => {
             Sort By Duration
           </Button>
         </div>
-        <Grid item xs={12} sm={8} md={8}>
+        <Grid item xs={12} sm={12} md={8} className={classes.gridFlex}>
           {filteredProduct.length
             ? filteredProduct.map((item) => (
                 <Grid className={classes.card} xs={12} sm={6} md={4}>

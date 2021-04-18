@@ -14,22 +14,48 @@ const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 345,
     margin: "5px",
+    position: "relative",
+    height: "100%",
+    marginBottom: "20px",
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
     "&:hover $addCart, &:focus $addCart": {
       display: "block",
     },
-    "&:hover $removeCart, &:focus $removeCart": {
-      display: "block",
+    "&:hover $overlay, &:focus $overlay": {
+      display: "flex",
     },
+  },
+  heading: {
+    fontSize: "21px",
+    color: "#000",
+    lineHeight: "1.3",
+    fontWeight: "500",
+    marginTop: "10px",
+    marginBottom: "10px"
   },
   addCart: {
     display: "none",
   },
-  removeCart: {
+  overlay: {
     display: "none",
+    position: "absolute",
+    height: "100%",
+    background: "rgba(0,0,0,0.4)",
+    width: "100%",
+    top: 0,
+    alignItems: "baseline",
+    justifyContent: "flex-end",
+    "& button": {
+      color: "#fff",
+      marginRight: "20px"
+    }
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    height: "180px",
+    backgroundSize: "100%",
+    width: "100%",
   },
 }));
 
@@ -59,28 +85,29 @@ export default function RecipeReviewCard({
 	
   return (
     <Card className={classes.root}>
-      <CardMedia className={classes.media} image={image} title="Paella dish" />
+      {image && <CardMedia className={classes.media} image={image} title="Paella dish" />}
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="h4">
+        <Typography variant="body2" color="textSecondary" component="h4" className={classes.heading}>
           {description}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
           {author}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          Publish Date: {publishDate}, Duration: {duration}
+          Publish Date: {publishDate}, <br/>
+          Duration: {duration}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing className={classes.overlay}>
         {alreadyAddedToCard ? (
           <Button
             size="small"
             color="primary"
             onClick={() => deleteItemCart(id)}
-            className={classes.addCart}
+            
           >
             Remove
           </Button>
@@ -95,7 +122,6 @@ export default function RecipeReviewCard({
                 addCart(id)
               }
             }}
-            className={classes.removeCart}
           >
             Add
           </Button>

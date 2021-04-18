@@ -64,6 +64,7 @@ export default function LoginForm({ handleClose }) {
         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
         <Input
           id="standard-adornment-password"
+          type="password"
           value={passwordTemp}
           onChange={(e) => setPassword(e.target.value)}
         />
